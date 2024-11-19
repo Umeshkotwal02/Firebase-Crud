@@ -1,0 +1,78 @@
+- ## 1 ## Steps TO Start React-Bootstrap
+- # 1. Install it 
+- npm install react-bootstrap bootstrap
+- # 2. Import it
+- add following at index.js or your layout
+- import 'bootstrap/dist/css/bootstrap.min.css';
+- import 'bootstrap/dist/js/bootstrap.js';
+- # 3. Import from react-bootstrap
+- which we use react bootstrap we import it from react-bootstrap like using { ctrl + space }
+- import from on secound option react-bootstrap not from bootstrap show in options
+
+
+- ## COMPONENTS ## --
+
+- # 1. Alert (dismissible,Alert.Heading, Alert.Link, show(true, false))
+- basically alert used like toaster to show alert on api success or any response like it have 7 types.
+- always write variant name in small letter.
+- dismissible property for add close as toaster (X) at top right at alert.
+- if show set true the alert dismissible not work, not complasray use show.
+- we can set dismissible by state
+- 'primary','secondary','success','danger','warning','info','light','dark',
+- <>  
+           <Container>
+                <Card>
+                    <Alert show={true} variant="danger" dismissible>
+                        <Alert.Heading>Heading</Alert.Heading>
+                        <Alert.Link href="https://hypd.store/" target="_blank">This is Link</Alert.Link>
+                        <p>this is alert paragraph</p>
+                    </Alert>
+                    <hr/>
+                </Card>
+            </Container>
+</>
+- Container is give you same space around left- right like one container.
+- Card Show Card with Boarder
+
+- # 2. Badges (bg, pill(give round shape))
+- set badge on any like on any button, at shopping Cart product num. show
+- <Button variant="primary">
+       Profile <Badge pill bg="secondary">9</Badge>
+  </Button>
+- pill for round shape to badge
+
+- # 3. Stack (direction , gap)
+- used for show in direction set of item (stack) horizontal or vertical.
+- <Stack direction="horizontal" gap={2}>
+      <Badge bg="primary">Primary</Badge>
+      <Badge bg="secondary">Secondary</Badge>
+      <Badge bg="dark">Dark</Badge>
+  </Stack>
+
+- # 4 Accordion ()
+- Click the accordions below to expand/collapse the accordion content.
+- <Accordion defaultActiveKey="0">
+    <Accordion.Item>
+        <Accordion.Header> Item 1</Accordion.Header>
+            <Accordion.Body>
+                <p>Lorem ipsum dolor sit amet consectetur</p>
+            </Accordion.Body>
+        </Accordion.Item>
+    </Accordion>
+
+- # 5 Breadcrumbs
+- Breadcrumbs is used for show navigation of web site.
+- like i go home page then profile then Change Password
+: home/profile/changepassword
+- How use give in Program Folder file
+
+- # 6 Button, Button-Group
+- used to make button group Can made button group with dropdown button, input
+- for use follow react-bootstrap official document.
+
+- # 7 Card
+- use react card
+- Card, Card.Header, Card.Body, 
+
+- # 8 Carousels
+- 

@@ -1,0 +1,620 @@
+- ReactJS is a JavaScript library for building user interfaces(UI) that improves the speed of the apps.
+- It uses virtual DOM (JavaScript object), which improves the performance of the app
+- React is used to build single-page applications.
+- React allows us to create reusable UI components.
+- ReactJs create Single Page Application. Single page Application reloaded only one's. and other work by JavaScript.
+- ReactJS maintain by Facebook.
+- First Release on May 2013.
+- Example: Instagram, WhatsApp-Web, NetFlix.
+- we can use javascript without browser so we install nodejs.
+
+
+< -- Setup ReactJS -- >
+- Download nodejs and npm (npm Auto Downloaded with nodejs not need to Download external)
+- Download VS-Code.
+< -- Extension -- >
+- install Thunder client extension it's alternative of post-man, it use for test api use for get & post.
+- install ES7 React/Redux extension
+- install Bracket Pair Color DLW Extension for show open and close Bracket Same Color so it's easy to work.
+- Auto Rename Tag Extension.  
+- Prettier - Code formatter(Optional).
+-Emmet
+
+- npm
+- npm is package manager 
+- npm help to install packages in nodejs.
+
+< -- Create ReactJS App  -- >
+- Open your terminal in the directory you would like to create your application. Run this command to create a React application named my-react-app:
+- Step 1 : npx create-react-app my-app
+         : my-app is given name of app
+- Step 2 : cd react_folder_name
+         : cd my-app
+         : change directory into in created reactJs App
+- Step 3 : npm start
+
+- we can check react version in package.json file
+- we can create folder and directly insert react-app in that folder using
+- open that folder path in terminal and write :npx create-react-app.
+
+** - React Preferred Camel-Case. Ex: htmlFor, className, tabIndex
+- In html we use class, for but in javascript they are reserved word so we use JSX
+
+< -- JSX -- >
+- JSX Stand For JavaScript XML.
+- It's allows us to write html in react.
+- React JSX helps us to write HTML in JavaScript 
+- JSX is Syntax Extension of JavaScript.
+- In react we can use only one tag or fragment <>...</>
+- we could not apply direct multiple element.
+- Why JSX ?
+- It is faster than normal JavaScript as it performs optimizations while translating to regular JavaScript.
+- It makes it easier for us to create templates.
+
+Example: 
+   function App() {
+  return (
+    <> --- it's valid
+    <h1> This is H1 Tag </h1>   ----  not valid if not use <>..</>
+    <div className="App">
+      <header className="App-header">
+        Learn React
+        </a>
+      </header>
+    </div>
+    </> ---- it's valid
+  );
+}
+
+- we use parentis() because react put automatically semicolon in (..) it's not access
+- where we want to use javascript we use {..} curly-brackets
+
+- We Create One Project TextUtils using BootStrap.
+- Basically changes and idea we learn from it's.
+- To Access one file to another file we need to import export that file.
+
+< -- Export and import Concept-->
+- Ex. We Create Two File module1 and module2.
+ < - Default Export - >
+- to run particular file use: node ./subfolder/module1.mjs
+- #module1.mjs:
+    import ui from './module2.mjs'
+    console.log(ui);
+- #module2.mjs:
+    const a = 'Umesh'
+    const b ='Akshay'
+    const c = 'Chetan'
+    const d= 'Rohit'
+    export default c;  // here we default c so output:- 'Chetan'
+< - name export - >
+- when we want export with name we use { }
+#module1.mjs
+import ui,{a,b,c} from './module2.mjs'
+console.log(ui);
+console.log(a);
+console.log(c);
+console.log(b);
+
+#module2.mjs
+const a = 'Umesh'
+const b ='Akshay'
+const c = 'Chetan'
+const d= 'Rohit'
+
+export default c;
+export {a};
+export {b};
+export {c};
+//Output:- Chetan
+            Umesh
+            Chetan
+            Akshay
+
+Note:- if want export all module so we use default export;
+     - when we want export only name or particular we use name export with { }
+     - to import default module import module_name_or_any_name_can_give from './that_module_name' 
+     - to import name module use import { name,name2} from './module_name'
+
+< -- Components -- >
+- React apps are made out of components.
+- A component is a piece of the UI (user interface) that has its own logic and appearance.
+- A component can be as small as a button, or as large as an entire page.
+- When creating a React component, the component's name MUST start with an upper case letter.
+1. Function base
+- This function is a valid React component because it accepts a single “props”
+- when we use function base component not need to import react_app.
+- import './App.css';
+- Example:-
+  function App() {
+    return (
+      <>
+      <h1>Hello</h1>
+      <button>Hello button</button>
+      </>
+    );
+  }
+
+export default App;
+
+2. Class Base Component
+- A class component must include the extends React.Component statement.
+- This statement creates an inheritance to React.Component, and gives your component access to React.Component's functions.
+- Example:-
+    App.js
+    import React from 'react';
+    import './App.css';
+
+    class Car extends React.Component {
+      render() {
+        return (
+          <h2>Hello H2</h2>
+        );
+      }
+    }
+    export default Car;
+
+
+< -- Props & PropType -- >
+- Props means Properties.
+- The Data passed one component to another component.
+- It is immutable.
+- read only & can not modify.
+- props ca be used with state & function component.
+- we can pass string,object,link etc..
+
+Example:
+Navbar.js:
+ <title>Kotwal </title>
+ <h1>{props.h1}</h1>
+ <nav>Home{props.ual}</nav>  
+
+App.js:
+ <>
+    <button>Hello, I Am Button</button>
+    <Navbar h1='HEllo' ual={5}/>
+ </> 
+
+- PropsType: 
+- is show the type of props & help to set PropsTypes.
+- Using props type we set data type of props.
+- it's benefits we can not pass another type props.
+- we have to import first PropsType.
+- can set isRequired.
+- Example:
+ Navbar.js
+  import PropTypes from 'prop-type'
+  Navbar.propTypes ={
+      h1:PropTypes.string.is,
+      ual:PropTypes.number
+  }
+
+- Default PropsType
+- it's for set default of props.
+  Navbar.defaultProps = {
+    h1:' Set title here',
+    ual:' Set heading here'
+  }
+
+< -- State -- >
+- State belong to Component
+
+Hooks:
+- use state & other feature without writing class.
+- You Must Import hook first.
+- You must Import it from react.
+- Hooks only called in functional component.
+- Hooks can not conditional.
+- Hooks can not work in React Class Component.
+- Hooks can only be called at the top level of a component, meaning it can't be called from inside a block, i.e. {}. So, can't be called inside if, loops or any block.
+- Example:
+  import React, { useState } from 'react';
+      const Blogs = () => {
+          // Can call here
+          if (true){
+              // Can't call here
+          }
+          return <h1>Blogs</h1>;
+      };
+      export default Blogs;
+
+1. useState Hook
+- first import that Hook from react.
+- setCount('abc') is used for update State
+Ex:- import React, { useState } from 'react'
+     function Example(){
+      const [count,setCount] = useState(0); // Remember statement
+      return(
+        <>
+        </>
+      )
+     }
+
+- How to Handle Event
+- How to setState
+- How listen Event
+
+< -- React Router -->
+- React router is used for page routing as React App doesn't include it as default. 
+# 1. - To install React router, run this in your terminal:
+     : npm i -D react-router-dom
+# 2. - import that Rooter
+     : import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+# 3. - Creating Multiple Routes
+  - To do this first we need to create multiple files and to keep code clean, we will make a folder and make all the pages there, hence we  will create a folder named pages in src. 
+  :-  Folder Structure:
+      src/pages/:
+      Home.js
+      About.js
+      Contact.js
+      Nopage.js
+
+:-  <Router>                                             - main 1st: Router
+      <Routes>                                           - 2nd :  Routes
+        <Route path="/" element={<Home />}>              - 3rd : set basic path for we want always first open page
+          <Route path="blogs" element={<About />} />     - path write in always small page1
+          <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NoPage />} />
+        </Route>
+      </Routes>
+    </Router>
+  
+# 4. - Linking Between Routes
+- import { Link } from 'react-router-dom';
+- Example: 
+ : function Navbar() {
+    return (
+      <nav>
+        <Link to="/">Home</Link>
+        <Link to="/about">About</Link>
+      </nav>
+    );  
+    }
+
+# 5. Redirecting Routes (Navigate Route )
+- React Router provides the Navigate component to redirect users from one route to another.
+-  Example:
+    import { Navigate } from 'react-router-dom';
+    function Home() {
+      return <Navigate to="/dashboard" />;
+    }
+
+# 6. Protected Route
+- Used for User Authentication & User Login
+- const isAuthenticated = false;
+  function ProtectedRoute({ element }) {
+    return isAuthenticated ? element : <Navigate to="/login" />;
+  }
+
+
+< -- Local Storage -- >
+-  local storage enables developers to store and retrieve data in the browser.
+- setItem(): This method is used to add a key and a value to localStorage.
+- getItem(): This method is used to get an item from localStorage using the key.
+- removeItem(): This technique is used to delete an item from localStorage based on its key.
+- clear(): This technique is used to delete all instances of localStorage.
+- key(): When you supply a number, it aids in the retrieval of a localStorage key.
+
+< -- API -- >
+- API stand for Application Programming Interface.
+- An API (Application Programming Interface) is a set of rules that allow one application to interact with another.
+- Think of an API as a way for applications to communicate with each other. For example, when you visit a weather app, the app communicates with a weather API to get data (like temperature, humidity) and shows it to you.
+
+< -- API Request -- >
+- An API request is when you ask an API for some information or to perform some action. This request is often sent over HTTP (just like how you access web pages). API requests have different types, called HTTP(Hypertext Transfer Protocol) methods.
+# HTTP Methods
+- GET: Retrieve data from the API (e.g., get user data, get posts).
+- POST: Send data to the API (e.g., create a new user, post a comment).
+- PUT/PATCH: Update existing data.
+- DELETE: Delete data from the API.
+
+
+- To fetch data from an API in a React application, you can use the built-in fetch method or a library like Axios.
+
+< -- Axios -- >
+- Axios is promise base HTTP library.
+- Axios is javascript library used to make HTTPs request from nodejs or XMLHttps Requests from the browser.
+- Axios use promises to handle HTTP request & responses.
+- It allows your website or app to send and receive data from a server, like fetching information, submitting forms, or updating content without reloading the entire page.
+
+# first install axios
+- npm install axios
+# import axios
+- import axios from 'axios'
+
+< -- Axiox Methods -- >
+(1) axios.get(url): Fetches data from the API.
+(2) .then(): Handles the successful response.
+(3) .catch(): Handles errors.
+
+- automatically JSON transformation without extra code.
+- Testing API Website: https://fakestoreapi.com/docs
+(1.) axios.get(url):
+- import axios from 'axios';
+- Example
+axios.get('https://jsonplaceholder.typicode.com/posts')
+  .then(response => {
+    console.log(response.data); // Response data
+  })
+  .catch(error => {
+    console.error('There was an error!', error);
+  });
+
+< -- Add To Cart -- >
+- first install
+  :- npm install react-use-cart
+
+< -- Redux -- >
+- Redux is a state management library that helps you manage and maintain the state of your entire application in a predictable way.
+- It is especially useful in large-scale applications where managing state across different components can become complex.
+- from any component we can read state
+
+- Key Concepts:-
+- Store: Holds the entire state of your application.
+- Action: An object that describes what happened in the app. It has a type and sometimes a payload.
+- Reducer: A function that takes the current state and an action, and returns a new state.
+- Dispatch: Sends an action to the store to trigger a state change.
+- Selector: Extracts a specific part of the state from the store.
+
+# 1. Install Redux library for Redux
+- npm install redux react-redux                 // for only use redux
+- npm install @reduxjs/toolkit react-redux      // for use redux toolkit
+
+# 2. Create Redux Store
+ - store.js
+ - :  import { configureStore } from '@reduxjs/toolkit'
+      export const store = configureStore({
+        reducer: {},
+      })
+
+# 3. Provide Access Redux Store to React add in index.js
+ - import { store } from './app/store'
+ - import { Provider } from 'react-redux'
+
+# 4. wrap the Provider
+- means we provide access where we want most of index.js we provide
+- : <React.StrictMode>
+    <Provider store={store}>
+    <App />
+    </Provider>
+    </React.StrictMode>
+
+# 5. Create a Redux State Slice
+   :- https://redux-toolkit.js.org/tutorials/quick-start
+
+# 6. Add Slice Reducers to the Store
+   :- import { configureStore } from '@reduxjs/toolkit'
+      import counterReducer from '../features/counter/counterSlice' // ---
+      export const store = configureStore({
+        reducer: {
+          counter: counterReducer,  // ---
+        },
+      })
+
+# 7. carray count value into app.js
+{count}
+  import { useSelector, useDispatch } from 'react-redux'
+  import { decrement, increment } from './counterSlice'
+
+# 8. Call Count into App.js
+
+# 9. Create Two Button 
+- add dispatch(decrement()) & dispatch(increment())
+- add Hook and import all
+- import { useSelector, useDispatch } from 'react-redux'
+- import { decrement, increment } from './redux/counter/counterSlice'
+  <div>
+    <button onClick={() => dispatch(decrement())}> - </button>
+    Currently Count is {count}
+    <button onClick={()=> dispatch(increment())}> + </button>
+  </div>
+
+# display value iin Navbar
+- use useSelector in Navbar
+import { useSelector, useDispatch } from 'react-redux'
+- 
+
+# increment or decrement ByAmount
+  <button onClick={()=> dispatch(incrementByAmount(5))}> + </button>
+action p.
+
+
+ {/*------------------------------------ Cart Button Start ----------------------------------------------------------------------------*/}
+                  <Button variant="info" onClick={() => addItem(product.id)}>
+                    <span className="material-symbols-outlined me-2">
+                      shopping_cart</span>
+                  <button className="" onClick={() => dispatch(decrement())}> - </button>
+                  {count}
+                  <button onClick={() => dispatch(increment())}> + </button>
+                  </Button>
+                </div>
+ {/*------------------------------------ Cart Button End ----------------------------------------------------------------------------*/}
+
+   const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+  };
+
+  () => dispatch(increment())
+
+
+<h2>Products List</h2>
+        {products.map((product) => (
+          <Col xs={6} sm={6} md={4} lg={3} className="mb-4" key={product.id}>
+            <Card className="custom-card">
+              <Card.Img
+                variant="top"   
+                src={product.image} // Ensure this is a valid URL
+                alt={product.title}
+                className="fixed-image p-3"
+              />
+
+              <Card.Body className="card_body">
+                <Card.Title className="text-truncate text-center fs-4 body">
+                  {product.title}
+                </Card.Title>
+                <div className="single-line">
+                  <Card.Text>
+                    <b>₹{product.price}</b>
+                  </Card.Text>
+                  <Card.Text>
+                    <b>{product.category}</b>
+                  </Card.Text>
+                </div>
+                <div className="btn">
+                  <Button
+                    variant="warning"
+                    className="me-2"
+                    onClick={() => {
+                      setEditProduct(product);
+                      setUpdateProduct(product);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="danger"
+                    onClick={() => deleteProduct(product.id)}
+                  >
+                    Delete
+                  </Button>
+ {/*------------------------------------ Cart Button Start ----------------------------------------------------------------------------*/}
+                  <Button variant="info" onClick={() => handleAddToCart(product)} >
+                    Add to Cart
+                  </Button>
+                </div>
+ {/*------------------------------------ Cart Button End ----------------------------------------------------------------------------*/}
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+
+
+  // Function to handle keyboard events
+  const handleKeyPress = (event) => {
+    const { key } = event;
+    if ((key >= '0' && key <= '9') || key === '.') {
+      setInput(input + key);
+    } else if (key === 'Enter' || key === '=') {
+      handleClick('=');
+    } else if (key === 'Backspace') {
+      setInput(input.slice(0, -1));
+    } else if (key === 'Escape') {
+      handleClick('clear');
+    } else if (['+', '-', '*', '/'].includes(key)) {
+      setInput(input + key);
+    }
+  };
+
+  // Add event listener to capture keyboard input
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [input]);
+
+< -- Key Press Event in ReactJs -- >
+- we can check key value using side :- https://www.toptal.com/developers/keycode
+
+
+< # -------- Postman API ----------- # >
+- Postman is a powerful tool for testing APIs.
+- develop, test, share, document APIs
+- It simplifies sending requests, analyzing responses, automating tests, and managing APIs.
+- This tutorial will cover the basics of using Postman for testing APIs, including sending GET and POST requests, handling parameters, authentication, and setting up collections and tests.
+
+# - Create WorkSpace
+:- using workspace in navbar we create workspace. give name WorkSpace & set visibility.
+- after request we see response in body, using script we test api and api result see in footer in Test Result.
+
+
+:- In postman You see Overview you see many Request
+:- Demo test api link : https://reqres.in/
+:- view Methods in details : https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+1. GET
+- using get we get data from api & check it in response.
+- we test Status Code:200 in script (post-response):
+  Example : pm.test("Status code is 200", function () {
+            pm.response.to.have.status(200);
+            });
+  if request code is right we got -> pass: Status code is 200
+  if we change status code in script we got -> fail: Status code is 200 | AssertionError: expected response to have status code 2001 but got 200
+ 
+2. POST
+- post data on server(api) and for this we need to body in body write data in json formate.
+- to post in body section select row with JSON and add data to check api.
+- like in BOdy : {
+                    "name": "Umesh",
+                    "job": "Software Developer"
+                  }
+- in this also we text code here status code is 201, status code give in api website we using for testing : reqres
+3. PUT 
+- update data
+- using put we always update all present data in API not update only particular data that we use patch 
+- we want update all data with also formate we use put and if we want update particular data(like only Fname & mobile number) we use patch method.
+- it also update data from body: {
+                                   "name": "Umesh",
+                                   "job": "Developer",
+                                   "mobile no" : "6352001332",
+                                   "address" : "Surat"
+                                  }
+4. PATCH 
+- update just we want data, particular data. pass data in body.
+- like just update first name : {
+                                  "name": "Rakesh"
+                                }
+                                
+5. DELETE
+- Delete data from API.
+- in response noting to get see
+6. HEAD
+7. OPTIONS
+
+# HTTP Response Code:
+- Informational responses (100 – 199)
+- Successful responses (200 – 299)
+- Redirection messages (300 – 399)
+- Client error responses (400 – 499)
+- Server error responses (500 – 599)
+
+< # --------- collection ---------- # >
+- Collection is group of API request.
+- To organize and manage API requests, and to share them with others and want use some logic and arrange it in Folder Formate.
+- if we want give common Authentication, pre request script, test give all api request give at Create New Collection Time.
+- ** After create collection their is many option in collection using right click can create new Folder in side collection, Create Variable (store url), Run Requests all at one time, set check collection Per schedule like in daily one hour,day so if any error come it can set mail us.
+
+< # ------- Variable ---------- # >
+- Variable are Key, Values  Pairs.
+- we can store url in Single Variable and use that Variable in different files so One Change effect on all files.
+|  Key  |  Values                    |
+|_______|____________________________|
+| URL   | "https://example.com/users |
+|_______|____________________________|
+- we give Variable in that collection more -> edit option -> Variable
+- in Variable we set common path of url in Variable.
+- In our Demo Collection : https://reqres.in/api
+- when we set variable their is set variable name and set link in initial value or current value.
+- initial: this value share with your team when you share this variable in collection environment or globally.
+- current value : this value not share with any just used within your local machine.
+- Click on Persist all more option in ur variable share with All.
+- then save your Variable.
+- next when give link in methos use : {{variable_name}}/remain-url
+
+
+
+// useEffect:
+: Ex. 1. useEffect.js
+- Used for make effect on website.
+-  Syntax:
+          useEffect(()=>{
+            // this used when page open or refresh just happen 1st time
+            // function
+            },[])
+- if we remove [] so it run on every render (every change)
+- where we use every render so it re-rend all component it effect on that component every change
+- [] empty array for when nothing change on page
+- StrictMode On in index.js so effect see two times. StrictMode check your code time 2 time so it happen we can remove it.
+- we can use useEffect two time with setting Condition at empty array.
+- we can sent state as prop and also set effect so one file to another file.
+
+
