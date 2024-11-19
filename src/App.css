@@ -1,11 +1,17 @@
+.main-container {
+  height: 100vh;
+  background-image: url("/public/loginBg.jpg");
+  background-position: center;
+  background-size: 100vw 100vh;
+}
+
 /* Style for range input slider */
 .range-slider {
-  background-color: aquamarine;
+  background-color: #007bff ;
   width: 100%;
   -webkit-appearance: none;
   appearance: none;
   height: 10px;
-  background: #ddd;
   border-radius: 5px;
   outline: none;
 }
@@ -44,4 +50,74 @@
 .Form.Text {
   font-size: 14px;
   color: #555;
+}
+
+
+.MainTable {
+  width: 100%;
+  background-color:255, 255, 255, 0;
+  border: 1px;
+  min-width: 100%;
+  position: relative;
+  opacity: 0.97;
+  background: transparent;
+}
+
+.form-control{
+  background-color:255, 255, 255, 0 !important;
+  border: 1px;
+  min-width: 100%;
+  position: relative;
+  opacity: 0.97;
+  background: transparent;
+}
+
+.shadow {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-range {
+  appearance: none;
+  width: 100%;
+  /* background-color: #ddd; */
+  border-radius: 50px;
+  height: 8px;
+}
+
+h4 {
+  font-weight: 600;
+}
+
+.rounded-pill {
+  border-radius: 50px !important;
+}
+
+
+.table {
+  border: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+.table thead th {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table tbody td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table img {
+  transition: transform 0.3s ease;
+}
+
+.table img:hover {
+  transform: scale(1.2);
+}
+
+.table td:last-child {
+  text-align: center;
 }

@@ -4,7 +4,6 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import Table from "react-bootstrap/Table";
 import { Container } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -17,6 +16,8 @@ import "react-country-state-city/dist/react-country-state-city.css";
 import { getDatabase, ref, set, get, remove } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import { getStorage } from 'firebase/storage';
+import { MdOutlineModeEdit } from "react-icons/md";
+import { MdDeleteSweep } from "react-icons/md";
 
 // Firebase configuration (replace with your Firebase config)
 const firebaseConfig = {
@@ -36,7 +37,6 @@ const database = getDatabase(app);
 const storage = getStorage(app);
 
 function AccountDetails() {
-    const [region, setRegion] = useState("");
     const [countryId, setCountryId] = useState(0);
     const [stateId, setStateId] = useState(0);
     const [accountFormData, setAccountFormData] = useState({
@@ -166,224 +166,247 @@ function AccountDetails() {
     }, []);
 
     return (
-        <Container>
-            <Row>
-                <Form noValidate onSubmit={handleSubmit}>
-                    <Row>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Profile Image URL</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="profileImage"
-                                value={accountFormData.profileImage}
-                                onChange={handleChange}
-                                placeholder="Enter image URL"
-                            />
-                        </Form.Group>
-                    </Row>
-                    <Row className="mb-3">
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>First name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="firstname"
-                                value={accountFormData.firstname}
-                                onChange={handleChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Last name</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="lastname"
-                                value={accountFormData.lastname}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Gender</Form.Label>
-                            <Form.Check
-                                label="Male"
-                                name="gender"
-                                type="radio"
-                                value="Male"
-                                checked={accountFormData.gender === "Male"}
-                                onChange={handleChange}
-                            />
-                            <Form.Check
-                                label="Female"
-                                name="gender"
-                                type="radio"
-                                value="Female"
-                                checked={accountFormData.gender === "Female"}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Date of Birth</Form.Label>
-                            <Form.Control
-                                type="date"
-                                name="dob"
-                                value={accountFormData.dob}
-                                onChange={handleChange}
-                            />
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Country</Form.Label>
-                            <CountrySelect onChange={handleCountryChange} placeHolder="Select Country" />
-                        </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>State</Form.Label>
-                            <StateSelect countryid={countryId} onChange={handleStateChange} placeHolder="Select State" />
-                        </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>City</Form.Label>
-                            <CitySelect countryid={countryId} stateid={stateId} onChange={handleCityChange} placeHolder="Select City" />
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Age</Form.Label>
-                            <Form.Control
-                                type="range"
-                                min="1"
-                                max="100"
-                                name="age"
-                                value={accountFormData.age}
-                                onChange={handleChange}
-                                step="1"
-                                className="range-slider"
-                            />
-                            <Form.Text className="fw-bold">{accountFormData.age} years old</Form.Text>
-                        </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Interests</Form.Label>
-                            <Form.Check
-                                inline
-                                label="Cricket"
-                                name="Cricket"
-                                checked={accountFormData.interests.includes("Cricket")}
-                                onChange={handleInterestChange}
-                            />
-                            <Form.Check
-                                inline
-                                label="Singing"
-                                name="Singing"
-                                checked={accountFormData.interests.includes("Singing")}
-                                onChange={handleInterestChange}
-                            />
-                            <Form.Check
-                                inline
-                                label="Drawing"
-                                name="Drawing"
-                                checked={accountFormData.interests.includes("Drawing")}
-                                onChange={handleInterestChange}
-                            />
-                            <Form.Check
-                                inline
-                                label="Traveling"
-                                name="Traveling"
-                                checked={accountFormData.interests.includes("Traveling")}
-                                onChange={handleInterestChange}
-                            />
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Email</Form.Label>
-                            <InputGroup>
-                                <InputGroup.Text>@</InputGroup.Text>
+        <div className="main-container text-dark">
+            <Container fluid>
+                <div className="d-flex justify-content-centre">
+                    <h1 className="text-centre fw-bolder">Firebase Crud Form</h1>
+                </div>
+                <Row>
+                    <Form noValidate onSubmit={handleSubmit} className="p-4 shadow rounded">
+                        <h4 className="mb-4 text-center">User Information Form</h4>
+                        <Row className="mb-3 gy-3">
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>First Name:</Form.Label>
                                 <Form.Control
-                                    type="email"
-                                    name="email"
-                                    value={accountFormData.email}
+                                    type="text"
+                                    name="firstname"
+                                    value={accountFormData.firstname}
                                     onChange={handleChange}
+                                    required
+                                    className="rounded-pill"
                                 />
-                            </InputGroup>
-                        </Form.Group>
-                        <Form.Group as={Col} md="3">
-                            <Form.Label>Mobile No.</Form.Label>
-                            <PhoneInput
-                                international
-                                defaultCountry="IN"
-                                placeholder="Enter Mobile Number"
-                                value={accountFormData.mobile}
-                                onChange={handlePhoneChange}
-                            />
-                        </Form.Group>
-                    </Row>
-                    <Button type="submit" className="mt-4">
-                        {editId ? "Update Data" : "Submit Data"}
-                    </Button>
-                </Form>
-            </Row>
-            <Row className="mt-5">
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Profile Image</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Mobile</th>
-                            <th>Gender</th>
-                            <th>Date of Birth</th>
-                            <th>Country</th>
-                            <th>State</th>
-                            <th>City</th>
-                            <th>Age</th>
-                            <th>Interests</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => (
-                            <tr key={user.id}>
-                                <td>
-                                    {user.profileImage ? (
-                                        <img
-                                            src={user.profileImage}
-                                            alt="Profile"
-                                            style={{ width: 100, height: 100, borderRadius: "50%" }}
-                                        />
-                                    ) : (
-                                        <span>No Image</span>
-                                    )}
-                                </td>
-                                <td>{user.firstname}</td>
-                                <td>{user.lastname}</td>
-                                <td>{user.email}</td>
-                                <td>{user.mobile}</td>
-                                <td>{user.gender}</td>
-                                <td>{user.dob}</td>
-                                <td>{user.country}</td>
-                                <td>{user.state}</td>
-                                <td>{user.city}</td>
-                                <td>{user.age}</td>
-                                <td>{user.interests.join(", ")}</td>
-                                <td>
-                                    <Button
-                                        variant="warning"
-                                        onClick={() => handleEdit(user)}
-                                    >
-                                        Edit
-                                    </Button>
-                                    <Button
-                                        variant="danger"
-                                        onClick={() => handleDelete(user.id)}
-                                    >
-                                        Delete
-                                    </Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
-            </Row>
-        </Container>
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Last Name:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="lastname"
+                                    value={accountFormData.lastname}
+                                    onChange={handleChange}
+                                    className="rounded-pill"
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Profile Image URL:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="profileImage"
+                                    value={accountFormData.profileImage}
+                                    onChange={handleChange}
+                                    placeholder="Enter image URL"
+                                    className="rounded-pill"
+                                />
+                            </Form.Group>
+                        </Row>
+                        <Row className="mb-3 gy-3">
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Gender:</Form.Label>
+                                <div className="d-flex gap-3">
+                                    <Form.Check
+                                        inline
+                                        label="Male"
+                                        name="gender"
+                                        type="radio"
+                                        value="Male"
+                                        checked={accountFormData.gender === "Male"}
+                                        onChange={handleChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="Female"
+                                        name="gender"
+                                        type="radio"
+                                        value="Female"
+                                        checked={accountFormData.gender === "Female"}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Date of Birth:</Form.Label>
+                                <Form.Control
+                                    type="date"
+                                    name="dob"
+                                    value={accountFormData.dob}
+                                    onChange={handleChange}
+                                    className="rounded-pill"
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Interests:</Form.Label>
+                                <div className="d-flex flex-wrap gap-2">
+                                    <Form.Check
+                                        inline
+                                        label="Cricket"
+                                        name="Cricket"
+                                        checked={accountFormData.interests.includes("Cricket")}
+                                        onChange={handleInterestChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="Singing"
+                                        name="Singing"
+                                        checked={accountFormData.interests.includes("Singing")}
+                                        onChange={handleInterestChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="Drawing"
+                                        name="Drawing"
+                                        checked={accountFormData.interests.includes("Drawing")}
+                                        onChange={handleInterestChange}
+                                    />
+                                    <Form.Check
+                                        inline
+                                        label="Traveling"
+                                        name="Traveling"
+                                        checked={accountFormData.interests.includes("Traveling")}
+                                        onChange={handleInterestChange}
+                                    />
+                                </div>
+                            </Form.Group>
+                        </Row>
+                        <Row className="mb-3 gy-3">
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Country:</Form.Label>
+                                <CountrySelect onChange={handleCountryChange} placeHolder="Select Country" />
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>State:</Form.Label>
+                                <StateSelect countryid={countryId} onChange={handleStateChange} placeHolder="Select State" />
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>City:</Form.Label>
+                                <CitySelect countryid={countryId} stateid={stateId} onChange={handleCityChange} placeHolder="Select City" />
+                            </Form.Group>
+                        </Row>
+                        <Row className="mb-3 gy-3">
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Age:</Form.Label>
+                                <Form.Control
+                                    type="range"
+                                    min="1"
+                                    max="100"
+                                    name="age"
+                                    value={accountFormData.age}
+                                    onChange={handleChange}
+                                    step="1"
+                                    className="form-range"
+                                />
+                                <Form.Text className="d-block">{accountFormData.age} years old</Form.Text>
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Email:</Form.Label>
+                                <InputGroup>
+                                    <InputGroup.Text>@</InputGroup.Text>
+                                    <Form.Control
+                                        type="email"
+                                        name="email"
+                                        value={accountFormData.email}
+                                        onChange={handleChange}
+                                        className="rounded-pill"
+                                    />
+                                </InputGroup>
+                            </Form.Group>
+                            <Form.Group as={Col} md="4">
+                                <Form.Label>Mobile No:</Form.Label>
+                                <PhoneInput
+                                    international
+                                    defaultCountry="IN"
+                                    placeholder="Enter Mobile Number"
+                                    value={accountFormData.mobile}
+                                    onChange={handlePhoneChange}
+                                />
+                            </Form.Group>
+                        </Row>
+                        <Button type="submit" className="btn-primary rounded-pill px-4 py-2 mt-3 ">
+                            {editId ? "Update Data" : "Submit Data"}
+                        </Button>
+                    </Form>
+
+                </Row>
+                <Row className="mt-5"  style={{ backgroundImage: "url('/public/loginBg.jpg')" }}>
+                    <h1> Users Details Table</h1>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover align-middle">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th scope="col">Profile Image</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Mobile</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Date of Birth</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Interests</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user) => (
+                                    <tr key={user.id}>
+                                        <td>
+                                            {user.profileImage ? (
+                                                <img
+                                                    className="rounded-circle border border-secondary"
+                                                    src={user.profileImage}
+                                                    alt="Profile"
+                                                    style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                                                />
+                                            ) : (
+                                                <span>No Image</span>
+                                            )}
+                                        </td>
+                                        <td>{user.firstname}</td>
+                                        <td>{user.lastname}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.mobile}</td>
+                                        <td>{user.gender}</td>
+                                        <td>{user.dob}</td>
+                                        <td>{user.country}</td>
+                                        <td>{user.state}</td>
+                                        <td>{user.city}</td>
+                                        <td>{user.age}</td>
+                                        <td>{user.interests.join(", ")}</td>
+                                        <td>
+                                            <Button
+                                                variant="warning"
+                                                onClick={() => handleEdit(user)}
+                                                className="btn-sm mx-1"
+                                            >
+                                                <MdOutlineModeEdit className="fs-6" />
+                                            </Button>
+                                            <Button
+                                                variant="danger"
+                                                onClick={() => handleDelete(user.id)}
+                                                className="btn-sm mx-1"
+                                            >
+                                                <MdDeleteSweep className="fs-6" />
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </Row>
+            </Container>
+        </div>
     );
 }
 
