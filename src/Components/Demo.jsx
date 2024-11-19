@@ -4,7 +4,6 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import Table from "react-bootstrap/Table";
 import { Container } from "react-bootstrap";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -16,9 +15,9 @@ import {
 import "react-country-state-city/dist/react-country-state-city.css";
 import { getDatabase, ref, set, get, remove } from "firebase/database";
 import { initializeApp } from "firebase/app";
-import { getStorage } from 'firebase/storage';
 import { MdOutlineModeEdit } from "react-icons/md";
 import { MdDeleteSweep } from "react-icons/md";
+import { MultiSelect } from "react-multi-select-component";
 
 // Firebase configuration (replace with your Firebase config)
 const firebaseConfig = {
@@ -35,10 +34,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const storage = getStorage(app);
 
 function AccountDetails() {
-    const [region, setRegion] = useState("");
     const [countryId, setCountryId] = useState(0);
     const [stateId, setStateId] = useState(0);
     const [accountFormData, setAccountFormData] = useState({
@@ -50,6 +47,7 @@ function AccountDetails() {
         age: 18,
         interests: [],
         dob: "",
+        multiselect: [],
         country: "",
         state: "",
         city: "",
@@ -57,6 +55,13 @@ function AccountDetails() {
     });
     const [users, setUsers] = useState([]);
     const [editId, setEditId] = useState(null);
+    const [selected, setSelected] = useState([]);
+
+    const options = [
+        { label: "Grapes 🍇", value: "grapes" },
+        { label: "Mango 🥭", value: "mango" },
+        { label: "Strawberry 🍓", value: "strawberry", disabled: true },
+    ];
 
     // Fetch all users
     const fetchData = async () => {
@@ -123,7 +128,11 @@ function AccountDetails() {
         e.preventDefault();
         try {
             const userId = editId || Date.now().toString();
-            await set(ref(database, `users/${userId}`), accountFormData);
+            const updatedData = {
+                ...accountFormData,
+                multiselect: selected.map((option) => option.value), // Save only the values
+            };
+            await set(ref(database, `users/${userId}`), updatedData);
             alert(editId ? "Data updated successfully!" : "Data saved successfully!");
             setEditId(null); // Reset edit mode
             setAccountFormData({
@@ -133,6 +142,7 @@ function AccountDetails() {
                 mobile: "",
                 gender: "",
                 dob: "",
+                multiselect: [],
                 age: 18,
                 interests: [],
                 country: "",
@@ -140,16 +150,20 @@ function AccountDetails() {
                 city: "",
                 profileImage: "",
             });
+            setSelected([]); // Reset MultiSelect
             fetchData();
         } catch (error) {
             console.error("Error saving data:", error);
         }
     };
 
+
     // Edit a user
     const handleEdit = (user) => {
         setEditId(user.id);
         setAccountFormData(user);
+        setSelected(user.multiselect.map((value) => options.find((option) => option.value === value)) || []);
+
     };
 
     // Delete a user
@@ -162,6 +176,7 @@ function AccountDetails() {
             console.error("Error deleting data:", error);
         }
     };
+
 
     useEffect(() => {
         fetchData();
@@ -234,14 +249,15 @@ function AccountDetails() {
                                     />
                                 </div>
                             </Form.Group>
+
                             <Form.Group as={Col} md="4">
-                                <Form.Label>Date of Birth:</Form.Label>
-                                <Form.Control
-                                    type="date"
-                                    name="dob"
-                                    value={accountFormData.dob}
-                                    onChange={handleChange}
-                                    className="rounded-pill"
+                                <Form.Label>MultiSelect Options:</Form.Label>
+                                <MultiSelect
+                                    name="multiselect"
+                                    options={options}
+                                    value={selected}
+                                    onChange={setSelected}
+                                    labelledBy="Select"
                                 />
                             </Form.Group>
                             <Form.Group as={Col} md="4">
@@ -293,7 +309,7 @@ function AccountDetails() {
                             </Form.Group>
                         </Row>
                         <Row className="mb-3 gy-3">
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="3">
                                 <Form.Label>Age:</Form.Label>
                                 <Form.Control
                                     type="range"
@@ -307,10 +323,20 @@ function AccountDetails() {
                                 />
                                 <Form.Text className="d-block">{accountFormData.age} years old</Form.Text>
                             </Form.Group>
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="3">
+                                <Form.Label>Date of Birth:</Form.Label>
+                                <Form.Control
+                                    type="date"
+                                    name="dob"
+                                    value={accountFormData.dob}
+                                    onChange={handleChange}
+                                    className="rounded-pill"
+                                />
+                            </Form.Group>
+                            <Form.Group as={Col} md="3">
                                 <Form.Label>Email:</Form.Label>
                                 <InputGroup>
-                                    <InputGroup.Text>@</InputGroup.Text>
+                                    <InputGroup.Text className="rounded-pill">@</InputGroup.Text>
                                     <Form.Control
                                         type="email"
                                         name="email"
@@ -320,7 +346,7 @@ function AccountDetails() {
                                     />
                                 </InputGroup>
                             </Form.Group>
-                            <Form.Group as={Col} md="4">
+                            <Form.Group as={Col} md="3">
                                 <Form.Label>Mobile No:</Form.Label>
                                 <PhoneInput
                                     international
@@ -337,74 +363,77 @@ function AccountDetails() {
                     </Form>
 
                 </Row>
-                <Row className="mt-5">
+                <Row className="mt-5" style={{ backgroundImage: "url('/public/loginBg.jpg')" }}>
                     <h1> Users Details Table</h1>
-                    <table responsive>
-                        <thead>
-                            <tr>
-                                <th>Profile Image</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Gender</th>
-                                <th>Date of Birth</th>
-                                <th>Country</th>
-                                <th>State</th>
-                                <th>City</th>
-                                <th>Age</th>
-                                <th>Interests</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((user) => (
-                                <tr key={user.id}>
-                                    <td >
-                                        {user.profileImage ? (
-                                            <img
-                                                className="m-3"
-                                                src={user.profileImage}
-                                                alt="Profile"
-                                                style={{ width: 100, height: 100, borderRadius: "50%" }}
-                                            />
-                                        ) : (
-                                            <span>No Image</span>
-                                        )}
-                                    </td>
-                                    <td>{user.firstname}</td>
-                                    <td>{user.lastname}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.mobile}</td>
-                                    <td>{user.gender}</td>
-                                    <td>{user.dob}</td>
-                                    <td>{user.country}</td>
-                                    <td>{user.state}</td>
-                                    <td>{user.city}</td>
-                                    <td>{user.age}</td>
-                                    <td>{user.interests.join(", ")}</td>
-                                    <td>
-                                        <Button
-                                            variant="warning"
-                                            onClick={() => handleEdit(user)}
-                                            className="m-2"
-                                        >
-
-                                            <MdOutlineModeEdit className="fs-5" />
-                                        </Button>
-                                        <Button
-                                            variant="danger"
-                                            onClick={() => handleDelete(user.id)}
-                                            className="m-2"
-
-                                        >
-                                            <MdDeleteSweep className="fs-5" />
-                                        </Button>
-                                    </td>
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover align-middle">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th scope="col">Profile Image</th>
+                                    <th scope="col">First Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Mobile</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Date of Birth</th>
+                                    <th scope="col">Multi Selected</th>
+                                    <th scope="col">Country</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">City</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Interests</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {users.map((user) => (
+                                    <tr key={user.id}>
+                                        <td>
+                                            {user.profileImage ? (
+                                                <img
+                                                    className="rounded-circle border border-secondary"
+                                                    src={user.profileImage}
+                                                    alt="Profile"
+                                                    style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                                                />
+                                            ) : (
+                                                <span>No Image</span>
+                                            )}
+                                        </td>
+                                        <td>{user.firstname}</td>
+                                        <td>{user.lastname}</td>
+                                        <td>{user.email}</td>
+                                        <td>{user.mobile}</td>
+                                        <td>{user.gender}</td>
+                                        <td>{user.dob}</td>
+                                        <td>{user.multiselect ? user.multiselect.join(", ") : "N/A"}</td>
+                                        <td>{user.country}</td>
+                                        <td>{user.state}</td>
+                                        <td>{user.city}</td>
+                                        <td>{user.age}</td>
+                                        <td>{user.interests.join(", ")}</td>
+                                        <td>
+                                            <Button
+                                                variant="warning"
+                                                onClick={() => handleEdit(user)}
+                                                className="btn-sm mx-1"
+                                            >
+                                                <MdOutlineModeEdit className="fs-6" />
+                                            </Button>
+                                            <Button
+                                                variant="danger"
+                                                onClick={() => handleDelete(user.id)}
+                                                className="btn-sm mx-1"
+                                            >
+                                                <MdDeleteSweep className="fs-6" />
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
                 </Row>
             </Container>
         </div>
@@ -412,3 +441,25 @@ function AccountDetails() {
 }
 
 export default AccountDetails;
+
+const handleEdit = (user) => {
+    setEditId(user.id);
+
+    // Set account form data
+    setAccountFormData(user);
+
+    // Initialize selected multi-select options
+    setSelected(user.multiselect.map((value) => options.find((option) => option.value === value)) || []);
+
+    // Initialize country and state IDs based on user data
+    const selectedCountry = user.country
+        ? { id: getCountryId(user.country), name: user.country }
+        : null;
+
+    const selectedState = user.state
+        ? { id: getStateId(user.state, selectedCountry?.id), name: user.state }
+        : null;
+
+    setCountryId(selectedCountry?.id || 0);
+    setStateId(selectedState?.id || 0);
+};
